@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.terge.sdkcompare.hook.HookConfig;
-import me.terge.sdkcompare.hook.HookParamStore;
+import me.terge.sdkcompare.hook.HookConfigStore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,15 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("terge","hook param:"+hparam.toString());
                     hookParamMap.put(hparam.getPkgName()+hparam.getPlatform(),hparam);
                 }
-                HookParamStore.save(hookParamMap);
-
-//                Map<String,HookConfig> configMap = HookParamStore.read();
-//                Iterator<String> iterator = configMap.keySet().iterator();
-//                while(iterator.hasNext()){
-//                    String key = iterator.next();
-//                    Log.e("terge","key:"+key);
-//                    Log.e("terge","value:"+configMap.get(key).toString());
-//                }
+                HookConfigStore.save(hookParamMap);
             }
         });
 

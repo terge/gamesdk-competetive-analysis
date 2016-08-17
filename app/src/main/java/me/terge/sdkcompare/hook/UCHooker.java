@@ -1,61 +1,44 @@
 package me.terge.sdkcompare.hook;
 
 import android.app.Activity;
-import android.content.Context;
+import android.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.terge.sdkcompare.App;
-import me.terge.sdkcompare.stat.UCStat;
+import me.terge.sdkcompare.stat.UCInitStat;
 
 /**
  * Created by terge on 16-8-15.
  */
 public class UCHooker extends BaseHooker{
-    private static final String TAG = "UCGameSdk";
     private UCHooker(){
         super();
         mPlatform = "UC";
     };
-    private static volatile UCHooker mDispatcher;
-    private static final String SDK_API = "cn.uc.gamesdk.UCGameSdk";
+    private static volatile UCHooker mHooker;
+    private static final String SDK_ENTRANCE = "cn.uc.gamesdk.UCGameSdk";
     public static UCHooker getInstance(){
-        if(mDispatcher == null){
+        if(mHooker == null){
             synchronized (UCHooker.class){
-                if(mDispatcher == null) {
-                    mDispatcher = new UCHooker();
+                if(mHooker == null) {
+                    mHooker = new UCHooker();
                 }
             }
         }
 
-        return mDispatcher;
+        return mHooker;
     }
 
-    public void dispachHook(XC_LoadPackage.LoadPackageParam loadPackageParam) throws ClassNotFoundException {
-        hookAplicationOnCreate(loadPackageParam);
-        hookInit(loadPackageParam);
-    }
 
-    private boolean isFirstInit = false;
-    private void hookAplicationOnCreate(final XC_LoadPackage.LoadPackageParam loadPackageParam){
-        XposedHelpers.findAndHookMethod("android.app.Application", loadPackageParam.classLoader, "onCreate", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                Context context = (Context) param.thisObject;
-                App.initLeanCloud(context);
-                isFirstInit = context.getSharedPreferences("cn.uc.gamesdk.pref",Context.MODE_PRIVATE).getAll().size() ==0;
-            }
-
-        });
-    }
 
 
     private long initInvokeStartTime = 0l;
     private long initInvokeEndTime = 0l;
     private long initCallbackTime = 0l;
-    private void hookInit(final XC_LoadPackage.LoadPackageParam loadPackageParam) throws ClassNotFoundException {
+    @Override
+    protected void hookInit(final XC_LoadPackage.LoadPackageParam loadPackageParam) throws ClassNotFoundException {
         /**
          * 初始化接口如下：
          * public void initSdk(
@@ -86,12 +69,12 @@ public class UCHooker extends BaseHooker{
                 XposedBridge.log(TAG+" init-cost:"+initCost);
                 XposedBridge.log(TAG+" init-invoke-cost:"+initInvokeCost);
 
-                resetConfig(loadPackageParam.packageName);
-                new UCStat()
+                HookConfig config = getHookConfig(loadPackageParam.packageName);
+                new UCInitStat()
                         .setInitCost(initCost)//
                         .setInitInvokeCost(initInvokeCost)//
                         .setPkgName(loadPackageParam.packageName)//
-                        .setGameName(mHookConfig==null?"":mHookConfig.getGameName())//
+                        .setGameName(config==null?"":config.getGameName())//
                         .setIsFirtInit(isFirstInit)//
                         .saveInBackground();
             }
@@ -106,9 +89,12 @@ public class UCHooker extends BaseHooker{
                 initInvokeStartTime = System.currentTimeMillis();
                 XposedBridge.log(TAG+" init start at："+initInvokeStartTime);
                 //hook初始化成功的回调
-//                XposedHelpers.findAndHookMethod("com.sqwan.msdk.api.sdk.UC$2$1",loadPackageParam.classLoader,"callback",//
-                XposedHelpers.findAndHookMethod(mHookConfig.getInitCallbackClz(),loadPackageParam.classLoader,"callback",//
-//                XposedHelpers.findAndHookMethod("cn.uc.gamesdk.demo.fragment.ApiFragment$2",loadPackageParam.classLoader,"callback",//
+                HookConfig config = getHookConfig(loadPackageParam.packageName);
+                if(config == null){
+                    Log.e("terge","hook config is null");
+                    return;
+                }
+                XposedHelpers.findAndHookMethod(config.getInitCallbackClz(),loadPackageParam.classLoader,"callback",//
                         int.class,Object.class,initFinishListener);
             }
 
@@ -121,12 +107,17 @@ public class UCHooker extends BaseHooker{
 
 
         //hook初始化调用
-        XposedHelpers.findAndHookMethod(SDK_API, loadPackageParam.classLoader, "initSdk", //
+        XposedHelpers.findAndHookMethod(SDK_ENTRANCE, loadPackageParam.classLoader, "initSdk", //
                 Activity.class,
                 logLevelClz,
                 boolean.class,
                 gameParamInfoClz,
                 callbackClz,
                 initHookListener);
+    }
+
+    @Override
+    protected String prefName() {
+        return "cn.uc.gamesdk.pref";
     }
 }

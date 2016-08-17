@@ -19,10 +19,11 @@ import java.util.Map;
 /**
  * Created by terge on 16-8-17.
  */
-public class HookParamStore {
+public class HookConfigStore {
     private final static String FOLDER_PATH = Environment.getExternalStorageDirectory()+File.separator+"SdkCompare";
     private final static String FILE_NAME = "hookConfig";
     public static void save(Map<String,HookConfig> paramMap){
+        Log.d("terge","HookConfigStore.save");
         if(paramMap == null || paramMap.size() == 0){
             return;
         }
@@ -64,11 +65,15 @@ public class HookParamStore {
 
 
     public static Map<String,HookConfig> read(){
+        Log.d("terge","HookConfigStore.read");
         HashMap<String,HookConfig> configMap = new HashMap<>();
         File configFile = new File(FOLDER_PATH,FILE_NAME);
         if(configFile.exists()){
+            FileReader fr = null;
+            BufferedReader br = null;
             try {
-                BufferedReader br = new BufferedReader(new FileReader(configFile));
+                fr = new FileReader(configFile);
+                br = new BufferedReader(fr);
                 String line = null;
                 StringBuilder sb = new StringBuilder();
                 while ((line = br.readLine()) != null) {
@@ -85,6 +90,13 @@ public class HookParamStore {
                 }
             }catch (Exception e){
                 e.printStackTrace();
+            }finally {
+                try {
+                    if(fr != null)fr.close();
+                    if(br != null) br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -94,10 +106,8 @@ public class HookParamStore {
 
     private static void ensureFile() {
         File folder = new File(FOLDER_PATH);
-        Log.e("terge","folder:"+FOLDER_PATH);
         if(!folder.exists())folder.mkdir();
         File file = new File(FOLDER_PATH,FILE_NAME);
-        Log.e("terge","file:"+file.getAbsolutePath());
         if(file.exists())file.delete();
         try {
             file.createNewFile();
