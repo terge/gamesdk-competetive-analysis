@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.hook;
+package me.terge.sdkcompare.hook.remoteconfig;
 
 import android.os.Environment;
 import android.util.Log;

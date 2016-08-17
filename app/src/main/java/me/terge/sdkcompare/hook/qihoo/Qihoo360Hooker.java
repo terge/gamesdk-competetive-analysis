@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.hook;
+package me.terge.sdkcompare.hook.qihoo;
 
 import android.app.Activity;
 
@@ -6,12 +6,13 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.terge.sdkcompare.stat.QihooInitStat;
+import me.terge.sdkcompare.hook.BaseHooker;
+import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
  * Created by terge on 16-8-17.
  */
-public class Qihoo360Hooker extends BaseHooker{
+public class Qihoo360Hooker extends BaseHooker {
     private static final String SDK_ENTRANCE = "com.qihoo.gamecenter.sdk.matrix.Matrix";
     private static final String INIT_METHOD = "init";
 

@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.terge.sdkcompare.hook.HookConfig;
-import me.terge.sdkcompare.hook.HookConfigStore;
+import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
+import me.terge.sdkcompare.hook.remoteconfig.HookConfigStore;
 
 public class MainActivity extends AppCompatActivity {
 

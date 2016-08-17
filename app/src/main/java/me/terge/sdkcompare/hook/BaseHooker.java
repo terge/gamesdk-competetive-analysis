@@ -9,6 +9,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import me.terge.sdkcompare.App;
+import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
+import me.terge.sdkcompare.hook.remoteconfig.HookConfigStore;
 
 /**
  * Created by terge on 16-8-16.
@@ -16,7 +18,7 @@ import me.terge.sdkcompare.App;
 public abstract class BaseHooker {
     protected final String TAG = getClass().getSimpleName();
     protected String mPlatform = null;
-    private   HookConfig mHookConfig;
+    private HookConfig mHookConfig;
     private  static Map<String,HookConfig> hookConfigMap;
     protected BaseHooker(){
         if(hookConfigMap == null)hookConfigMap = HookConfigStore.read();

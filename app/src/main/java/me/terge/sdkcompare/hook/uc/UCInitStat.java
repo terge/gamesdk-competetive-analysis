@@ -1,8 +1,10 @@
-package me.terge.sdkcompare.stat;
+package me.terge.sdkcompare.hook.uc;
 
 import android.annotation.SuppressLint;
 
 import com.avos.avoscloud.AVClassName;
+
+import me.terge.sdkcompare.hook.BaseInitStat;
 
 /**
  * Created by terge on 16-8-16.

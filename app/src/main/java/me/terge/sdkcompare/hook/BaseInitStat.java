@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.stat;
+package me.terge.sdkcompare.hook;
 
 import android.annotation.SuppressLint;
 

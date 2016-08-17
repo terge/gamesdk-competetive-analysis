@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.hook;
+package me.terge.sdkcompare.hook.uc;
 
 import android.app.Activity;
 import android.util.Log;
@@ -7,12 +7,13 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.terge.sdkcompare.stat.UCInitStat;
+import me.terge.sdkcompare.hook.BaseHooker;
+import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
  * Created by terge on 16-8-15.
  */
-public class UCHooker extends BaseHooker{
+public class UCHooker extends BaseHooker {
     private UCHooker(){
         super();
         mPlatform = "UC";
