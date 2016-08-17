@@ -7,10 +7,7 @@ import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 
-import me.terge.sdkcompare.hook.baidu.BaiduInitStat;
 import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
-import me.terge.sdkcompare.hook.qihoo.QihooInitStat;
-import me.terge.sdkcompare.hook.uc.UCInitStat;
 
 /**
  * Created by terge on 16-8-16.

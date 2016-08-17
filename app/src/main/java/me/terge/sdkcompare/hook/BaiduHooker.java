@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.hook.baidu;
+package me.terge.sdkcompare.hook;
 
 import android.app.Activity;
 import android.util.Log;
@@ -7,7 +7,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.terge.sdkcompare.hook.BaseHooker;
+import me.terge.sdkcompare.GamePlatform;
 import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
@@ -64,7 +64,7 @@ public class BaiduHooker extends BaseHooker{
 
 
                 HookConfig config = getHookConfig(loadPackageParam.packageName);
-                new BaiduInitStat()
+                new InitStat(GamePlatform.BAIDU)
                         .setInitCost(initCost)//
                         .setInitInvokeCost(initInvokeCost)//
                         .setPkgName(loadPackageParam.packageName)//
