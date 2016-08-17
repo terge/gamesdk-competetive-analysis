@@ -3,12 +3,11 @@ package me.terge.sdkcompare.hook;
 import android.app.Activity;
 import android.content.Context;
 
-import java.util.List;
-
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import me.terge.sdkcompare.App;
 import me.terge.sdkcompare.stat.UCStat;
 
 /**
@@ -35,18 +34,17 @@ public class UCHooker extends BaseHooker{
     }
 
     public void dispachHook(XC_LoadPackage.LoadPackageParam loadPackageParam) throws ClassNotFoundException {
-        if(hookParamMap.size() == 0)initLeanCloud(loadPackageParam);
         hookAplicationOnCreate(loadPackageParam);
         hookInit(loadPackageParam);
     }
 
     private boolean isFirstInit = false;
-    private List<HookParam> hookParam;
     private void hookAplicationOnCreate(final XC_LoadPackage.LoadPackageParam loadPackageParam){
         XposedHelpers.findAndHookMethod("android.app.Application", loadPackageParam.classLoader, "onCreate", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.thisObject;
+                App.initLeanCloud(context);
                 isFirstInit = context.getSharedPreferences("cn.uc.gamesdk.pref",Context.MODE_PRIVATE).getAll().size() ==0;
             }
 
@@ -77,25 +75,27 @@ public class UCHooker extends BaseHooker{
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                int initResultCode = (int) param.args[0];
+                //初始化失败,不统计耗时
+                if(initResultCode !=0) return;
+
                 initCallbackTime = System.currentTimeMillis();
                 long initCost = initCallbackTime-initInvokeStartTime;
                 long initInvokeCost = initInvokeEndTime-initInvokeStartTime;
                 XposedBridge.log(TAG+" init callback at："+initCallbackTime+" code:"+param.args[0]);
                 XposedBridge.log(TAG+" init-cost:"+initCost);
                 XposedBridge.log(TAG+" init-invoke-cost:"+initInvokeCost);
+
+                resetConfig(loadPackageParam.packageName);
                 new UCStat()
                         .setInitCost(initCost)//
                         .setInitInvokeCost(initInvokeCost)//
                         .setPkgName(loadPackageParam.packageName)//
-                        .setGameName(loadPackageParam.appInfo.name)//
+                        .setGameName(mHookConfig==null?"":mHookConfig.getGameName())//
                         .setIsFirtInit(isFirstInit)//
                         .saveInBackground();
             }
 
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-            }
         };
 
 
@@ -106,7 +106,8 @@ public class UCHooker extends BaseHooker{
                 initInvokeStartTime = System.currentTimeMillis();
                 XposedBridge.log(TAG+" init start at："+initInvokeStartTime);
                 //hook初始化成功的回调
-                XposedHelpers.findAndHookMethod("com.sqwan.msdk.api.sdk.UC$2$1",loadPackageParam.classLoader,"callback",//
+//                XposedHelpers.findAndHookMethod("com.sqwan.msdk.api.sdk.UC$2$1",loadPackageParam.classLoader,"callback",//
+                XposedHelpers.findAndHookMethod(mHookConfig.getInitCallbackClz(),loadPackageParam.classLoader,"callback",//
 //                XposedHelpers.findAndHookMethod("cn.uc.gamesdk.demo.fragment.ApiFragment$2",loadPackageParam.classLoader,"callback",//
                         int.class,Object.class,initFinishListener);
             }
