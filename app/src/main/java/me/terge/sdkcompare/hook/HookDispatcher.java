@@ -4,9 +4,6 @@ import android.util.Log;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.terge.sdkcompare.hook.baidu.BaiduHooker;
-import me.terge.sdkcompare.hook.qihoo.Qihoo360Hooker;
-import me.terge.sdkcompare.hook.uc.UCHooker;
 
 /**
  * Created by terge on 16-8-16.

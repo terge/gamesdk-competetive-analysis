@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.hook.qihoo;
+package me.terge.sdkcompare.hook;
 
 import android.app.Activity;
 
@@ -6,7 +6,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import me.terge.sdkcompare.hook.BaseHooker;
+import me.terge.sdkcompare.GamePlatform;
 import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
@@ -53,7 +53,7 @@ public class Qihoo360Hooker extends BaseHooker {
 
                         HookConfig config = getHookConfig(loadPackageParam.packageName);
                         long initCost = mInitEndTime - mInitStartTime;
-                        new QihooInitStat()
+                        new InitStat(GamePlatform.QIHOO)
                                 .setInitCost(initCost)//
                                 .setInitInvokeCost(initCost)//
                                 .setPkgName(loadPackageParam.packageName)//

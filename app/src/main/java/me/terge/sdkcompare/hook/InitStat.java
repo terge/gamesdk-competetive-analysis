@@ -2,35 +2,41 @@ package me.terge.sdkcompare.hook;
 
 import android.annotation.SuppressLint;
 
+import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
 /**
  * Created by terge on 16-8-16.
  */
 @SuppressLint("ParcelCreator")
-public class BaseInitStat extends AVObject{
+@AVClassName("init")
+public class InitStat extends AVObject{
+    public InitStat(){}
+    public InitStat(String platform){
+        put("platform",platform);
+    }
 
-    public BaseInitStat setInitCost(long time){
+    public InitStat setInitCost(long time){
         put("initCost",time);
         return this;
     }
 
-    public BaseInitStat setInitInvokeCost(long time){
+    public InitStat setInitInvokeCost(long time){
         put("initInvokeCost",time);
         return this;
     }
 
-    public BaseInitStat setPkgName(String pkgName){
+    public InitStat setPkgName(String pkgName){
         put("pkgName",pkgName);
         return this;
     }
 
-    public BaseInitStat setGameName(String gameName){
+    public InitStat setGameName(String gameName){
         put("gameName",gameName);
         return this;
     }
 
-    public BaseInitStat setIsFirtInit(boolean isFirstInit){
+    public InitStat setIsFirtInit(boolean isFirstInit){
         put("isFirstInit",isFirstInit);
         return this;
     }

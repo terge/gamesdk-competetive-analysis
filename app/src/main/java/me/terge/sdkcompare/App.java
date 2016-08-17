@@ -7,10 +7,8 @@ import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 
-import me.terge.sdkcompare.hook.baidu.BaiduInitStat;
+import me.terge.sdkcompare.hook.InitStat;
 import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
-import me.terge.sdkcompare.hook.qihoo.QihooInitStat;
-import me.terge.sdkcompare.hook.uc.UCInitStat;
 
 /**
  * Created by terge on 16-8-16.
@@ -25,9 +23,7 @@ public class App extends Application{
     }
 
     public static void initLeanCloud(Context context){
-        AVObject.registerSubclass(UCInitStat.class);
-        AVObject.registerSubclass(QihooInitStat.class);
-        AVObject.registerSubclass(BaiduInitStat.class);
+        AVObject.registerSubclass(InitStat.class);
         AVObject.registerSubclass(HookConfig.class);
         AVOSCloud.initialize(context,"M3eWIBkM7cIRQIfXkkwwn0TI-gzGzoHsz","LGFFzabtnByk2cvHsPakwIYP");
     }
