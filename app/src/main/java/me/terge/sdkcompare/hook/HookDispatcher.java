@@ -6,6 +6,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import me.terge.sdkcompare.hook.platform.BaiduHooker;
 import me.terge.sdkcompare.hook.platform.Qihoo360Hooker;
+import me.terge.sdkcompare.hook.platform.TecentHooker;
 import me.terge.sdkcompare.hook.platform.UCHooker;
 
 /**
@@ -40,6 +41,13 @@ public class HookDispatcher implements IXposedHookLoadPackage{
             if(bdHooker.care(pkgName)){
                 Log.d("terge","baidu care:"+pkgName);
                 bdHooker.dispachHook(loadPackageParam);
+                return;
+            }
+
+            TecentHooker tcHooker = TecentHooker.getInstance();
+            if(tcHooker.care(pkgName)){
+                Log.d("terge","tencent care:"+pkgName);
+                tcHooker.dispachHook(loadPackageParam);
                 return;
             }
 

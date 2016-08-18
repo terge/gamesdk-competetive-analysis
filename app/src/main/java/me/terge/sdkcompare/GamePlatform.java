@@ -7,6 +7,7 @@ public class GamePlatform {
     public static final String UC = "UC";
     public static final String QIHOO = "360";
     public static final String BAIDU = "Baidu";
+    public static final String TENCENT = "Tencent";
 
 
 }
