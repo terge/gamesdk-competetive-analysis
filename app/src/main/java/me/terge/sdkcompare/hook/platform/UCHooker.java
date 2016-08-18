@@ -1,4 +1,4 @@
-package me.terge.sdkcompare.hook;
+package me.terge.sdkcompare.hook.platform;
 
 import android.app.Activity;
 import android.util.Log;
@@ -8,6 +8,8 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import me.terge.sdkcompare.GamePlatform;
+import me.terge.sdkcompare.hook.BaseHooker;
+import me.terge.sdkcompare.hook.InitStat;
 import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
