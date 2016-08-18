@@ -18,7 +18,7 @@ import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 public class BaiduHooker extends BaseHooker {
     private BaiduHooker(){
         super();
-        mPlatform = "Baidu";
+        mPlatform = GamePlatform.BAIDU;
     };
     private static volatile BaiduHooker mHooker;
     private static final String SDK_ENTRANCE = "com.baidu.gamesdk.BDGameSDK";

@@ -20,7 +20,7 @@ public class Qihoo360Hooker extends BaseHooker {
 
     private Qihoo360Hooker(){
         super();
-        mPlatform = "360";
+        mPlatform = GamePlatform.QIHOO;
     };
     private static volatile Qihoo360Hooker mHooker;
     public static Qihoo360Hooker getInstance(){

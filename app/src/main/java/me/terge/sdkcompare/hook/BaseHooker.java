@@ -17,7 +17,7 @@ import me.terge.sdkcompare.hook.remoteconfig.HookConfigStore;
  */
 public abstract class BaseHooker {
     protected final String TAG = getClass().getSimpleName();
-    protected String mPlatform = null;
+    protected  String mPlatform = null;
     private HookConfig mHookConfig;
     private  static Map<String,HookConfig> hookConfigMap;
     protected BaseHooker(){

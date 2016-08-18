@@ -18,7 +18,7 @@ import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 public class UCHooker extends BaseHooker {
     private UCHooker(){
         super();
-        mPlatform = "UC";
+        mPlatform = GamePlatform.UC;
     };
     private static volatile UCHooker mHooker;
     private static final String SDK_ENTRANCE = "cn.uc.gamesdk.UCGameSdk";
