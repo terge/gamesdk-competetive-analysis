@@ -41,6 +41,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name="me.terge.sdkcompare.hooksupport.ConfigService" android:exported="true" >
+            <intent-filter >
+                <action android:name="me.terge.sdkcompare.hooksupport.ConfigService"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

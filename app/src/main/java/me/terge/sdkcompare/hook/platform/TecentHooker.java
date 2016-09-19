@@ -7,9 +7,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import me.terge.sdkcompare.GamePlatform;
-import me.terge.sdkcompare.hook.BaseHooker;
 import me.terge.sdkcompare.hook.InitStat;
-import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
  * Created by terge on 16-8-18.
@@ -53,13 +51,13 @@ public class TecentHooker extends BaseHooker{
                         mInitEndTime = System.currentTimeMillis();
                         XposedBridge.log(TAG+" init end:"+mInitEndTime);
 
-                        HookConfig config = getHookConfig(loadPackageParam.packageName);
+//                        HookConfig config = getHookConfig(loadPackageParam.packageName);
                         long initCost = mInitEndTime - mInitStartTime;
                         new InitStat(GamePlatform.TENCENT)
                                 .setInitCost(initCost)//
                                 .setInitInvokeCost(initCost)//
                                 .setPkgName(loadPackageParam.packageName)//
-                                .setGameName(config==null?"":config.getGameName())//
+                                .setGameName(mHookConfig==null?"":mHookConfig.getGameName())//
                                 .setIsFirtInit(isFirstInit)//
                                 .saveInBackground();
 

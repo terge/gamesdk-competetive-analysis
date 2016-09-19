@@ -3,17 +3,15 @@ package me.terge.sdkcompare;
 import android.app.Application;
 import android.content.Context;
 
-import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 
 import me.terge.sdkcompare.hook.InitStat;
-import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
+import me.terge.sdkcompare.hooksupport.HookConfig;
 
 /**
  * Created by terge on 16-8-16.
  */
-@AVClassName("Init")
 public class App extends Application{
 
     @Override

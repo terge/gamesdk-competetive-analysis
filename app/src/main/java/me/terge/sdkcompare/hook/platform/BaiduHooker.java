@@ -8,9 +8,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import me.terge.sdkcompare.GamePlatform;
-import me.terge.sdkcompare.hook.BaseHooker;
 import me.terge.sdkcompare.hook.InitStat;
-import me.terge.sdkcompare.hook.remoteconfig.HookConfig;
 
 /**
  * Created by terge on 16-8-17.
@@ -65,12 +63,12 @@ public class BaiduHooker extends BaseHooker {
                 long initInvokeCost = initInvokeEndTime-initInvokeStartTime;
 
 
-                HookConfig config = getHookConfig(loadPackageParam.packageName);
+//                HookConfig config = getHookConfig(loadPackageParam.packageName);
                 new InitStat(GamePlatform.BAIDU)
                         .setInitCost(initCost)//
                         .setInitInvokeCost(initInvokeCost)//
                         .setPkgName(loadPackageParam.packageName)//
-                        .setGameName(config==null?"":config.getGameName())//
+                        .setGameName(mHookConfig==null?"":mHookConfig.getGameName())//
                         .setIsFirtInit(isFirstInit)//
                         .saveInBackground();
             }
@@ -85,12 +83,12 @@ public class BaiduHooker extends BaseHooker {
                 initInvokeStartTime = System.currentTimeMillis();
                 XposedBridge.log(TAG+" init start at："+initInvokeStartTime);
                 //hook初始化成功的回调
-                HookConfig config = getHookConfig(loadPackageParam.packageName);
-                if(config == null){
+//                HookConfig config = getHookConfig(loadPackageParam.packageName);
+                if(mHookConfig == null){
                     Log.e("terge","hook config is null");
                     return;
                 }
-                XposedHelpers.findAndHookMethod(config.getInitCallbackClz(),loadPackageParam.classLoader,"onResponse",//
+                XposedHelpers.findAndHookMethod(mHookConfig.getInitCallbackClz(),loadPackageParam.classLoader,"onResponse",//
                         int.class,String.class,Object.class,//
                         initFinishListener);
             }

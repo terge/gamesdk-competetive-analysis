@@ -23,33 +23,11 @@ public class HookDispatcher implements IXposedHookLoadPackage{
 
             Log.d("terge", "xposed handleLoadPackage: " + pkgName);
 
-            UCHooker ucHooker = UCHooker.getInstance();
-            if (ucHooker.care(pkgName)) {
-                Log.d("terge","uc care:"+pkgName);
-                ucHooker.dispachHook(loadPackageParam);
-                return;
-            }
+            UCHooker.getInstance().dispachHook(loadPackageParam);
+            Qihoo360Hooker.getInstance().dispachHook(loadPackageParam);
+            BaiduHooker.getInstance().dispachHook(loadPackageParam);
+            TecentHooker.getInstance().dispachHook(loadPackageParam);
 
-            Qihoo360Hooker qhHooker = Qihoo360Hooker.getInstance();
-            if(qhHooker.care(pkgName)){
-                Log.d("terge","360 care:"+pkgName);
-                qhHooker.dispachHook(loadPackageParam);
-                return;
-            }
-
-            BaiduHooker bdHooker = BaiduHooker.getInstance();
-            if(bdHooker.care(pkgName)){
-                Log.d("terge","baidu care:"+pkgName);
-                bdHooker.dispachHook(loadPackageParam);
-                return;
-            }
-
-            TecentHooker tcHooker = TecentHooker.getInstance();
-            if(tcHooker.care(pkgName)){
-                Log.d("terge","tencent care:"+pkgName);
-                tcHooker.dispachHook(loadPackageParam);
-                return;
-            }
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -60,6 +38,7 @@ public class HookDispatcher implements IXposedHookLoadPackage{
     private boolean isInBlackList(String pkgName){
         if(pkgName.startsWith("com.google.android"))return true;
         if(pkgName.startsWith("com.android"))return true;
+        if(pkgName.startsWith("me.terge"))return true;
         return false;
     }
 
